@@ -1,12 +1,17 @@
 window.onload = function() {
 	var lookup = document.getElementById("lookup");
-	var country = document.getElementById("country");
+	var countrylookup = document.getElementById("country");
 	var result= document.getElementById("result");
+	var citieslookup = document.getElementById("cities");
+		
 		lookup.addEventListener("click",function(){
 		
-		loadList(country.value);
+		loadList(countrylookup.value,false);
 	});
-		function loadList(value){
+		citieslookup.addEventListener("click",function(){
+			loadList(countrylookup.value,true);
+		});
+		function loadList(value,cities){
 		var httpRequest= new XMLHttpRequest();
 		var url = "/world.php";
 		httpRequest.onreadystatechange = function(){
@@ -16,7 +21,11 @@ window.onload = function() {
 				
 			}
 		};
-		httpRequest.open('GET',url+'?country='+value,true);
+		if (cities==true){
+		    httpRequest.open('GET',url+'?country='+value+'&context=cities',true);	
+		}else{
+		    httpRequest.open('GET',url+'?country='+value,true);
+		}
 		console.log(httpRequest);
 		httpRequest.send();
 		
